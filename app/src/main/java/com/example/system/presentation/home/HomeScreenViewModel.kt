@@ -44,6 +44,11 @@ class HomeScreenViewModel @Inject constructor(
                 _state.value = _state.value.copy(level = level)
             }
         }
+        viewModelScope.launch {
+            useCases.getTitle().collect { title ->
+                _state.value = _state.value.copy(title = title)
+            }
+        }
     }
 
     fun onEvent(events: HomeScreenEvents, backStack: SnapshotStateList<Screen>){

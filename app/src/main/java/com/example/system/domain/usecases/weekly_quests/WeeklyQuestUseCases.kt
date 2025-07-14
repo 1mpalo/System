@@ -8,5 +8,7 @@ data class WeeklyQuestUseCases (
     val deleteQuest: DeleteQuestWeekly,
     val deleteAllQuests: DeleteAllQuestsWeekly,
     val setLastUpdatedTimeWeekly: SetLastUpdatedTimeWeekly,
-    val getLastUpdatedTimeWeekly: GetLastUpdatedTimeWeekly
+    val getLastUpdatedTimeWeekly: GetLastUpdatedTimeWeekly,
+    val putNewTitle: PutNewTitle,
+    val checkATitleForExistence: CheckATitleForExistence
 )

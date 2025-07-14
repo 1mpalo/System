@@ -5,5 +5,6 @@ data class HomeState(
     var strength: Int = 0,
     var agility: Int = 0,
     var intelligence: Int = 0,
-    var vitality: Int = 0
+    var vitality: Int = 0,
+    var title: String = "None"
 )

@@ -143,9 +143,11 @@ fun NavGraph(startDestination: Screen) {
             ) {
                 val weeklyQuestsViewModel: WeeklyQuestsViewModel = hiltViewModel()
                 val quests by weeklyQuestsViewModel.quests.collectAsState()
+                val toastFlow = weeklyQuestsViewModel.toastFlow
                 WeeklyQuestsScreen(
                     quests = quests,
-                    event = weeklyQuestsViewModel::onEvent
+                    event = weeklyQuestsViewModel::onEvent,
+                    toastFlow = toastFlow
                 )
             }
         }

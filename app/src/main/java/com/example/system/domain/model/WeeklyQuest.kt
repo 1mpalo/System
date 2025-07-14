@@ -8,5 +8,6 @@ data class WeeklyQuest (
     @PrimaryKey
     val quest: String,
     val currentTimesDone: Int,
-    val targetTimesDone: Int
+    val targetTimesDone: Int,
+    val title: String
 )

@@ -6,6 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.system.domain.manager.LocalUserManager
 import com.example.system.unil.Constants
@@ -45,6 +46,23 @@ class LocalUserManagerImplementation(
         return context.dataStore.data.map { preference ->
             val value = preference[preferenceKey] ?: 0
             Log.d("getInt", "${preference[preferenceKey]}, $preferenceKey")
+            value
+        }
+    }
+
+    override suspend fun setString(key: String, value: String) {
+        val preferenceKey = stringPreferencesKey(key)
+        Log.d("setString", "$preferenceKey, $value")
+        context.dataStore.edit {
+            it[preferenceKey] = value
+        }
+    }
+
+    override fun getString(key: String): Flow<String> {
+        val preferenceKey = stringPreferencesKey(key)
+        Log.d("getString", "$preferenceKey")
+        return context.dataStore.data.map { preference ->
+            val value = preference[preferenceKey] ?: "None"
             value
         }
     }

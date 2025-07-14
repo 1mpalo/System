@@ -12,4 +12,8 @@ interface LocalUserManager {
 
     fun getInt(key: String) : Flow<Int>
 
+    suspend fun setString(key: String, value: String)
+
+    fun getString(key: String) : Flow<String>
+
 }

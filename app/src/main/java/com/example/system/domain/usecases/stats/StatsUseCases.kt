@@ -10,5 +10,8 @@ data class StatsUseCases (
     val setVitality: SetVitality,
     val getVitality: GetVitality,
     val setLevel: SetLevel,
-    val getLevel: GetLevel
+    val getLevel: GetLevel,
+    val setTitle: SetTitle,
+    val getTitle: GetTitle,
+    val getAllTitles: GetAllTitles
 )
