@@ -106,9 +106,11 @@ fun NavGraph(startDestination: Screen) {
             entry<Screen.HomeScreen> {
                 val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
                 val state by homeScreenViewModel.state.collectAsState()
+                val  titles by homeScreenViewModel.titles.collectAsState()
                 HomeScreen(
                     state = state,
-                    event = {homeScreenViewModel.onEvent(events = it,backStack)}
+                    event = {homeScreenViewModel.onEvent(events = it,backStack)},
+                    titles = titles
                 )
             }
 

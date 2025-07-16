@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.ProgressBar
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -52,9 +53,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.system.R
+import com.example.system.domain.model.Title
 import com.example.system.presentation.common.GlowingText
 import com.example.system.presentation.common.NotificationNoIcon
 import com.example.system.presentation.common.Parameter
+import com.example.system.presentation.common.TitleItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.ceil
@@ -66,7 +69,8 @@ import kotlin.math.roundToInt
 @Composable
 fun HomeScreen(
     state: HomeState,
-    event: (HomeScreenEvents) -> Unit
+    event: (HomeScreenEvents) -> Unit,
+    titles: List<Title>
 ) {
 
     val expForNextLvl by derivedStateOf {
@@ -87,7 +91,7 @@ fun HomeScreen(
     }
 
     if(currentExp == expForNextLvl) {
-        event(HomeScreenEvents.updateLevel)
+        event(HomeScreenEvents.UpdateLevel)
     }
 
     val progress by derivedStateOf {
@@ -124,7 +128,7 @@ fun HomeScreen(
                             )
                         },
                         selected = false,
-                        onClick = { event(HomeScreenEvents.onDailyQuestClicked) }
+                        onClick = { event(HomeScreenEvents.OnDailyQuestClicked) }
                     )
                     NavigationDrawerItem(
                         label = {
@@ -135,7 +139,7 @@ fun HomeScreen(
                             )
                         },
                         selected = false,
-                        onClick = { event(HomeScreenEvents.onWeeklyQuestClicked) }
+                        onClick = { event(HomeScreenEvents.OnWeeklyQuestClicked) }
                     )
                     NavigationDrawerItem(
                         label = {
@@ -146,7 +150,7 @@ fun HomeScreen(
                             )
                         },
                         selected = false,
-                        onClick = { event(HomeScreenEvents.onLogsQuestClicked) }
+                        onClick = { event(HomeScreenEvents.OnLogsQuestClicked) }
                     )
                     NavigationDrawerItem(
                         label = {
@@ -157,7 +161,7 @@ fun HomeScreen(
                             )
                         },
                         selected = false,
-                        onClick = { event(HomeScreenEvents.onSettingsQuestClicked) }
+                        onClick = { event(HomeScreenEvents.OnSettingsQuestClicked) }
                     )
                 }
             }
@@ -188,11 +192,11 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.padding(top = 5.dp))
 
                     Box(
-                        modifier = Modifier.width(400.dp),
+                        modifier = Modifier.width(500.dp),
                         contentAlignment = Alignment.CenterStart
                     ) {
                         Row(
-                            modifier = Modifier.padding(horizontal = 40.dp),
+                            modifier = Modifier.padding(start = 80.dp),
                             verticalAlignment = Alignment.Bottom
                         ) {
                             Column(
@@ -208,23 +212,23 @@ fun HomeScreen(
                                     fontSize = MaterialTheme.typography.titleLarge.fontSize
                                 )
                             }
-                            Spacer(modifier = Modifier.padding(start = 60.dp))
+                            Spacer(modifier = Modifier.width(40.dp))
                             Column(modifier = Modifier.padding(bottom = 5.dp)) {
                                 Box(
                                     modifier = Modifier.fillMaxWidth(),
-                                    contentAlignment = Alignment.CenterEnd
+                                    contentAlignment = Alignment.CenterStart
                                 ) {
                                     LinearProgressIndicator(
                                         modifier = Modifier
                                             .height(18.dp)
-                                            .fillMaxWidth(),
+                                            .fillMaxWidth(0.75f),
                                         progress = { progress },
                                         gapSize = (-30).dp
                                     )
 
                                     GlowingText(
                                         modifier = Modifier
-                                            .fillMaxWidth(0.8f)
+                                            .fillMaxWidth(0.75f)
                                             .padding(if (progress.toFloat() == 1f) 5.dp else 17.dp),
                                         text = "${currentExp}/${expForNextLvl}",
                                         textAlign = TextAlign.End,
@@ -232,9 +236,10 @@ fun HomeScreen(
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(10.dp))
-                                GlowingText(
-                                    text = "Title: None",
-                                    fontSize = MaterialTheme.typography.titleLarge.fontSize
+                                TitleItem(
+                                    title = "Title: ${state.title}",
+                                    dropDownItems = titles,
+                                    onItemClicked = { title -> event(HomeScreenEvents.OnTitleClicked(title)) }
                                 )
                             }
                         }

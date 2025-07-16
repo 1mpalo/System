@@ -3,6 +3,7 @@ package com.example.system.presentation.home
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.system.domain.model.Title
 import com.example.system.domain.usecases.stats.StatsUseCases
 import com.example.system.presentation.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,61 +14,74 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    val useCases: StatsUseCases
+    val statsUseCases: StatsUseCases
 ): ViewModel() {
     private var _state = MutableStateFlow(HomeState())
     val state = _state
 
+    private val _titles = MutableStateFlow<List<Title>>(value = listOf())
+    val titles = _titles
+
     init {
         viewModelScope.launch {
-            useCases.getAgility().collect { agility ->
+            statsUseCases.getAgility().collect { agility ->
                 _state.value = _state.value.copy(agility = agility)
             }
         }
         viewModelScope.launch {
-            useCases.getStrength().collect { strength ->
+            statsUseCases.getStrength().collect { strength ->
                 _state.value = _state.value.copy(strength = strength)
             }
         }
         viewModelScope.launch {
-            useCases.getVitality().collect { vitality ->
+            statsUseCases.getVitality().collect { vitality ->
                 _state.value = _state.value.copy(vitality = vitality)
             }
         }
         viewModelScope.launch {
-            useCases.getIntelligence().collect { intelligence ->
+            statsUseCases.getIntelligence().collect { intelligence ->
                 _state.value = _state.value.copy(intelligence = intelligence)
             }
         }
         viewModelScope.launch {
-            useCases.getLevel().collect { level ->
+            statsUseCases.getLevel().collect { level ->
                 _state.value = _state.value.copy(level = level)
             }
         }
         viewModelScope.launch {
-            useCases.getTitle().collect { title ->
+            statsUseCases.getTitle().collect { title ->
                 _state.value = _state.value.copy(title = title)
+            }
+        }
+        viewModelScope.launch {
+            statsUseCases.getAllTitles().collect { titles ->
+                _titles.value = titles
             }
         }
     }
 
     fun onEvent(events: HomeScreenEvents, backStack: SnapshotStateList<Screen>){
         when(events) {
-            HomeScreenEvents.onDailyQuestClicked -> {
+            HomeScreenEvents.OnDailyQuestClicked -> {
                 backStack.add(Screen.DailyQuests)
             }
-            HomeScreenEvents.onLogsQuestClicked -> {
+            HomeScreenEvents.OnLogsQuestClicked -> {
 
             }
-            HomeScreenEvents.onSettingsQuestClicked -> {
+            HomeScreenEvents.OnSettingsQuestClicked -> {
 
             }
-            HomeScreenEvents.onWeeklyQuestClicked -> {
+            HomeScreenEvents.OnWeeklyQuestClicked -> {
                 backStack.add(Screen.WeeklyQuests)
             }
-            HomeScreenEvents.updateLevel -> {
+            HomeScreenEvents.UpdateLevel -> {
                 viewModelScope.launch {
-                    useCases.setLevel(_state.value.level+1)
+                    statsUseCases.setLevel(_state.value.level+1)
+                }
+            }
+            is HomeScreenEvents.OnTitleClicked -> {
+                viewModelScope.launch {
+                    statsUseCases.setTitle(value = events.title.title)
                 }
             }
         }

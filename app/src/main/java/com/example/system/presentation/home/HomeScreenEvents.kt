@@ -1,9 +1,11 @@
 package com.example.system.presentation.home
+import com.example.system.domain.model.Title
 
 sealed class HomeScreenEvents {
-    object onDailyQuestClicked : HomeScreenEvents()
-    object onWeeklyQuestClicked : HomeScreenEvents()
-    object onLogsQuestClicked : HomeScreenEvents()
-    object onSettingsQuestClicked : HomeScreenEvents()
-    object updateLevel : HomeScreenEvents()
+    object OnDailyQuestClicked : HomeScreenEvents()
+    object OnWeeklyQuestClicked : HomeScreenEvents()
+    object OnLogsQuestClicked : HomeScreenEvents()
+    object OnSettingsQuestClicked : HomeScreenEvents()
+    object UpdateLevel : HomeScreenEvents()
+    data class OnTitleClicked (val title: Title) : HomeScreenEvents()
 }
