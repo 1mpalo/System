@@ -33,7 +33,6 @@ class WeeklyQuestsViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             updateQuests()
-            weeklyQuestUseCases.setLastUpdatedTimeWeekly(100)
             weeklyQuestUseCases.getAllQuests().collect { quests ->
                 _quests.value = quests
             }

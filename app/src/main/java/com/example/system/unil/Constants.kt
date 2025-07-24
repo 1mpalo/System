@@ -15,7 +15,7 @@ object Constants {
     const val DAILY_QUEST_DATABASE = "daily-quest-database"
     const val LAST_UPDATED_DAILY_QUESTS_TIME = "last-update-time_daily"
     const val LAST_UPDATED_WEEKLY_QUESTS_TIME = "last-update-time_weekly"
-    const val CHANCE_TO_BE_REWARDED_WITH_TITLE = 100
+    const val CHANCE_TO_BE_REWARDED_WITH_TITLE = 10
 
     val dailyQuests: List<DailyQuest> = listOf (
         DailyQuest(quest = "Learn physics.", points = "2 points of intelligence"),

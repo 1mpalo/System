@@ -78,7 +78,12 @@ fun HomeScreen(
     }
 
     val prevLevelsXp by derivedStateOf {
-        (((state.level - 1).toDouble().pow(1.5)) * 20).roundToInt()
+        val base = (state.level - 1).toDouble()
+        if (base >= 0) {
+            (base.pow(1.5) * 20).roundToInt()
+        } else {
+            30
+        }
     }
 
     val currentExp by derivedStateOf {
@@ -118,51 +123,53 @@ fun HomeScreen(
                         style = MaterialTheme.typography.titleLarge
                     )
                     HorizontalDivider()
-                    NavigationDrawerItem(
-                        modifier = Modifier.fillMaxWidth(),
-                        label = {
-                            Text(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = "Daily quests",
-                                textAlign = TextAlign.Center
-                            )
-                        },
-                        selected = false,
-                        onClick = { event(HomeScreenEvents.OnDailyQuestClicked) }
-                    )
-                    NavigationDrawerItem(
-                        label = {
-                            Text(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = "Weekly quests",
-                                textAlign = TextAlign.Center
-                            )
-                        },
-                        selected = false,
-                        onClick = { event(HomeScreenEvents.OnWeeklyQuestClicked) }
-                    )
-                    NavigationDrawerItem(
-                        label = {
-                            Text(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = "Logs",
-                                textAlign = TextAlign.Center
-                            )
-                        },
-                        selected = false,
-                        onClick = { event(HomeScreenEvents.OnLogsQuestClicked) }
-                    )
-                    NavigationDrawerItem(
-                        label = {
-                            Text(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = "Settings",
-                                textAlign = TextAlign.Center
-                            )
-                        },
-                        selected = false,
-                        onClick = { event(HomeScreenEvents.OnSettingsQuestClicked) }
-                    )
+                    Column(modifier = Modifier.fillMaxHeight()) {
+                        NavigationDrawerItem(
+                            modifier = Modifier.fillMaxWidth(),
+                            label = {
+                                Text(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    text = "Daily quests",
+                                    textAlign = TextAlign.Center
+                                )
+                            },
+                            selected = false,
+                            onClick = { event(HomeScreenEvents.OnDailyQuestClicked) }
+                        )
+                        NavigationDrawerItem(
+                            label = {
+                                Text(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    text = "Weekly quests",
+                                    textAlign = TextAlign.Center
+                                )
+                            },
+                            selected = false,
+                            onClick = { event(HomeScreenEvents.OnWeeklyQuestClicked) }
+                        )
+//                        NavigationDrawerItem(
+//                            label = {
+//                                Text(
+//                                    modifier = Modifier.fillMaxWidth(),
+//                                    text = "Logs",
+//                                    textAlign = TextAlign.Center
+//                                )
+//                            },
+//                            selected = false,
+//                            onClick = { event(HomeScreenEvents.OnLogsQuestClicked) }
+//                        )
+//                        NavigationDrawerItem(
+//                            label = {
+//                                Text(
+//                                    modifier = Modifier.fillMaxWidth(),
+//                                    text = "Settings",
+//                                    textAlign = TextAlign.Center
+//                                )
+//                            },
+//                            selected = false,
+//                            onClick = { event(HomeScreenEvents.OnSettingsQuestClicked) }
+//                        )
+                    }
                 }
             }
         },
@@ -235,7 +242,7 @@ fun HomeScreen(
                                         fontSize = MaterialTheme.typography.labelMedium.fontSize
                                     )
                                 }
-                                Spacer(modifier = Modifier.height(10.dp))
+                                Spacer(modifier = Modifier.height(8.dp))
                                 TitleItem(
                                     title = "Title: ${state.title}",
                                     dropDownItems = titles,
